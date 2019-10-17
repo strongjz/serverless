@@ -33,7 +33,6 @@ const spawnOptions = {
   process.stdout.write('Tweak package.json\n');
   const pkgJson = JSON.parse(originalPkgJsonBuffer);
   pkgJson.files = [
-    'lib',
     'node_modules/npm/bin/npm-cli.js',
     'node_modules/node-gyp/bin/node-gyp.js',
     'node_modules/npm/node_modules/node-gyp/bin/node-gyp.js',
