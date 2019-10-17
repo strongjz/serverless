@@ -53,6 +53,7 @@ const spawnOptions = {
       spawnOptions
     );
   } finally {
+    process.stdout.write('Revert package.json patches\n');
     await fse.writeFileAsync(pkgJsonPath, originalPkgJsonBuffer);
   }
 })();
