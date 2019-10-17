@@ -24,7 +24,11 @@ const spawnOptions = {
 (async () => {
   process.stdout.write('Install npm\n');
   const originalPkgJsonBuffer = await fse.readFileAsync(pkgJsonPath);
-  await spawn('npm', ['install', 'npm@6'], spawnOptions);
+  // Hard code npm version to one that comes with lastest Node.js
+  // It's due to fact that npm tends to issue buggy releases
+  // Node.js confirms on given version before including it within its bundle
+  // Version mappings reference: https://nodejs.org/en/download/releases/
+  await spawn('npm', ['install', 'npm@6.11.3'], spawnOptions);
 
   process.stdout.write('Tweak package.json\n');
   const pkgJson = JSON.parse(originalPkgJsonBuffer);
