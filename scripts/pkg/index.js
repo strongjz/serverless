@@ -12,7 +12,7 @@ process.on('unhandledRejection', error => {
 const path = require('path');
 const spawn = require('child-process-ext/spawn');
 
-const serverlessPath = path.join(__dirname, '..');
+const serverlessPath = path.join(__dirname, '../..');
 const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
 
 (async () => {
