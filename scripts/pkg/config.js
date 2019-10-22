@@ -2,6 +2,8 @@
 
 module.exports = {
   files: [
+    // Service templates
+    '../../lib/plugins/create/templates',
     // Ensure npm is bundled as a dependency
     '../../node_modules/npm/bin/npm-cli.js',
     // Below module is not automatically traced by pkg, we need to point it manually
