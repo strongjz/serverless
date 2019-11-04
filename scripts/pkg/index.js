@@ -27,9 +27,11 @@ const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
   // Node.js confirms on given version before including it within its bundle
   // Version mappings reference: https://nodejs.org/en/download/releases/
   await spawn('npm', ['install', '--no-save', 'npm@6.12.0'], spawnOptions);
-
-  process.stdout.write('Build binaries\n');
   try {
+    // Remove created package-lock.json
+    await fse.removeAsync(path.join(serverlessPath, 'package-lock.json'));
+
+    process.stdout.write('Build binaries\n');
     await spawn(
       'node',
       [
