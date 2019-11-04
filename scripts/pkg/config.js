@@ -5,6 +5,8 @@ module.exports = {
   // which is important for local templates installation
   license: 'MIT',
   files: [
+    // Basic CF templates (not resolved automatically)
+    '../../lib/plugins/aws/package/lib/*.json',
     // Service templates
     '../../lib/plugins/create/templates',
     // Ensure npm is bundled as a dependency
