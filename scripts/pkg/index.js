@@ -22,7 +22,7 @@ const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
   // It's due to fact that npm tends to issue buggy releases
   // Node.js confirms on given version before including it within its bundle
   // Version mappings reference: https://nodejs.org/en/download/releases/
-  await spawn('npm', ['install', '--no-save', 'npm@6.11.3'], spawnOptions);
+  await spawn('npm', ['install', '--no-save', 'npm@6.12.0'], spawnOptions);
 
   process.stdout.write('Build binaries\n');
   await spawn(
