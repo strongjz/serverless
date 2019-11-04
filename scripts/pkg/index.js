@@ -11,6 +11,10 @@ process.on('unhandledRejection', error => {
 
 const path = require('path');
 const spawn = require('child-process-ext/spawn');
+const BbPromise = require('bluebird');
+const fse = require('fs-extra');
+
+BbPromise.promisifyAll(fse);
 
 const serverlessPath = path.join(__dirname, '../..');
 const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
@@ -25,18 +29,23 @@ const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
   await spawn('npm', ['install', '--no-save', 'npm@6.12.0'], spawnOptions);
 
   process.stdout.write('Build binaries\n');
-  await spawn(
-    'node',
-    [
-      './node_modules/.bin/pkg',
-      '-c',
-      'scripts/pkg/config.js',
-      '--out-path',
-      'dist',
-      '-t',
-      'node12-macos-x64',
-      'bin/serverless.js',
-    ],
-    spawnOptions
-  );
+  try {
+    await spawn(
+      'node',
+      [
+        './node_modules/.bin/pkg',
+        '-c',
+        'scripts/pkg/config.js',
+        '--out-path',
+        'dist',
+        '-t',
+        'node12-macos-x64',
+        'bin/serverless.js',
+      ],
+      spawnOptions
+    );
+  } finally {
+    // Clear npm installation
+    await fse.removeAsync(path.join(serverlessPath, 'node_modules/npm'));
+  }
 })();
