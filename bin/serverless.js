@@ -2,6 +2,11 @@
 
 'use strict';
 
+if (process.argv[2] === 'binary-postinstall' && process.argv.length === 3) {
+  require('../scripts/postinstall');
+  return;
+}
+
 // global graceful-fs patch
 // https://github.com/isaacs/node-graceful-fs#global-patching
 const realFs = require('fs');
