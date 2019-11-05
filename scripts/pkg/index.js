@@ -40,8 +40,6 @@ const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
         'scripts/pkg/config.js',
         '--out-path',
         'dist',
-        '-t',
-        'node12-macos-x64',
         'bin/serverless.js',
       ],
       spawnOptions
