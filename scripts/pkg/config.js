@@ -5,7 +5,9 @@ module.exports = {
   // which is important for local templates installation
   license: 'MIT',
   files: [
-    // Basic CF templates (not resolved automatically)
+    // Custom resources
+    '../../lib/plugins/aws/customResources/resources',
+    // Basic CF templates
     '../../lib/plugins/aws/package/lib/*.json',
     // Service templates
     '../../lib/plugins/create/templates',
