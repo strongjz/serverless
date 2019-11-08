@@ -4,10 +4,7 @@
 
 'use strict';
 
-Error.stackTraceLimit = Infinity;
-process.on('unhandledRejection', error => {
-  throw error;
-});
+require('essentials');
 
 const path = require('path');
 const spawn = require('child-process-ext/spawn');

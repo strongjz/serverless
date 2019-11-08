@@ -29,7 +29,7 @@ if (userNodeVersion >= 8) {
   }
 }
 
-Error.stackTraceLimit = Infinity;
+require('essentials');
 
 const autocomplete = require('../lib/utils/autocomplete');
 const BbPromise = require('bluebird');
@@ -46,13 +46,6 @@ if (process.env.SLS_DEBUG) {
 
 process.on('uncaughtException', error => logError(error, { forceExit: true }));
 
-process.on('unhandledRejection', error => {
-  if (process.listenerCount('unhandledRejection') > 1) {
-    // User attached its own unhandledRejection handler, abort
-    return;
-  }
-  throw error;
-});
 process.noDeprecation = true;
 
 if (require('../lib/utils/tabCompletion/isSupported') && process.argv[2] === 'completion') {
