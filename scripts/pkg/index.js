@@ -20,22 +20,15 @@ const serverlessPath = path.join(__dirname, '../..');
 const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
 
 (async () => {
-  // Ensure instance has means to recognize self as executable
-  const pkgJsonPath = path.join(serverlessPath, 'package.json');
-  const pkgJsonContent = await fse.readFileAsync(pkgJsonPath);
-  const pkgJsonData = JSON.parse(pkgJsonContent);
-  pkgJsonData.isExecutable = true;
-  await fse.writeFileAsync(pkgJsonPath, JSON.stringify(pkgJsonData, null, 2));
+  // To bundle npm with a binary we need to install it
+  process.stdout.write('Install npm\n');
+  // Hard code npm version to one that comes with lastest Node.js
+  // It's due to fact that npm tends to issue buggy releases
+  // Node.js confirms on given version before including it within its bundle
+  // Version mappings reference: https://nodejs.org/en/download/releases/
+  await spawn('npm', ['install', '--no-save', 'npm@6.12.0'], spawnOptions);
 
   try {
-    // To bundle npm with a binary we need to install it
-    process.stdout.write('Install npm\n');
-    // Hard code npm version to one that comes with lastest Node.js
-    // It's due to fact that npm tends to issue buggy releases
-    // Node.js confirms on given version before including it within its bundle
-    // Version mappings reference: https://nodejs.org/en/download/releases/
-    await spawn('npm', ['install', '--no-save', 'npm@6.12.0'], spawnOptions);
-
     process.stdout.write('Build binaries\n');
     await spawn(
       'node',
@@ -52,9 +45,6 @@ const spawnOptions = { cwd: serverlessPath, stdio: 'inherit' };
       spawnOptions
     );
   } finally {
-    await BbPromise.all([
-      fse.removeAsync(path.join(serverlessPath, 'node_modules/npm')),
-      fse.writeFileAsync(pkgJsonPath, pkgJsonContent),
-    ]);
+    await fse.removeAsync(path.join(serverlessPath, 'node_modules/npm'));
   }
 })();
