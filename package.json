@@ -75,10 +75,10 @@
     "overrides": [
       {
         "files": [
-          "scripts/pkg/index.js"
+          "scripts/pkg/*"
         ],
         "parserOptions": {
-          "ecmaVersion": 2017
+          "ecmaVersion": 2018
         }
       }
     ]
