@@ -2,7 +2,11 @@
 
 'use strict';
 
-if (process.argv[2] === 'binary-postinstall' && process.argv.length === 3) {
+if (
+  process.argv[2] === 'binary-postinstall' &&
+  process.argv.length === 3 &&
+  require('../package').isExecutable
+) {
   require('../scripts/postinstall');
   return;
 }
