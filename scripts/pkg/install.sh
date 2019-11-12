@@ -68,7 +68,7 @@ BINARIES_DIR_PATH=$HOME/.serverless/bin
 BINARY_PATH=$BINARIES_DIR_PATH/serverless
 mkdir -p $BINARIES_DIR_PATH
 echo " Downloading binary..."
-# curl -L -o $BINARY_PATH https://github.com/serverless/serverless/releases/download/$LATEST_TAG/serverless-$PLATFORM
+curl -L -o $BINARY_PATH https://github.com/serverless/serverless/releases/download/$LATEST_TAG/serverless-$PLATFORM
 chmod +x $BINARY_PATH
 
 # Ensure aliases
