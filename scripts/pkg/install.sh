@@ -90,5 +90,3 @@ if ! grep -q '.serverless/bin' "$PROFILE"; then
 fi
 
 $HOME/.serverless/bin/serverless binary-postinstall
-
-printf "$green Successfully installed Serverless $LATEST_TAG! Please open another terminal where the \`serverless\` command will now be available.$reset\n"
