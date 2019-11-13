@@ -54,6 +54,7 @@ const distPath = path.join(__dirname, '../../dist');
 const API_URL = 'https://api.github.com/repos/serverless/serverless/releases/';
 const API_UPLOADS_URL = 'https://uploads.github.com/repos/serverless/serverless/releases/';
 const requestOptions = { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` } };
+const binaryBasenameMatcher = /^serverless-([a-z0-9]+)(?:-([a-z0-9]+))?(\.exe)?$/;
 
 const request = async (url, options) => {
   const response = await fetch(url, options);
@@ -78,8 +79,13 @@ const releaseAssetsDeferred = releaseIdDeferred.then(releaseId =>
   const distFileBasenames = await fs.promises.readdir(distPath);
   return Promise.all(
     distFileBasenames.map(async distFileBasename => {
+      const distFileBasenameTokens = distFileBasename.match(binaryBasenameMatcher);
+      if (!distFileBasenameTokens) throw new Error(`Unexpected dist file ${distFileBasename}`);
+      const targetBinaryName = `serverless-${
+        distFileBasenameTokens[1]
+      }-${distFileBasenameTokens[2] || 'x64'}${distFileBasenameTokens[2] || ''}`;
       const existingAssetData = (await releaseAssetsDeferred).find(
-        assetData => assetData.name === distFileBasename
+        assetData => assetData.name === targetBinaryName
       );
       if (existingAssetData) {
         await request(`${API_URL}assets/${existingAssetData.id}`, {
@@ -89,7 +95,7 @@ const releaseAssetsDeferred = releaseIdDeferred.then(releaseId =>
       }
       const filePath = path.join(distPath, distFileBasename);
       await request(
-        `${API_UPLOADS_URL}${await releaseIdDeferred}/assets?name=${distFileBasename}`,
+        `${API_UPLOADS_URL}${await releaseIdDeferred}/assets?name=${targetBinaryName}`,
         {
           method: 'POST',
           body: fs.createReadStream(filePath),
@@ -100,7 +106,7 @@ const releaseAssetsDeferred = releaseIdDeferred.then(releaseId =>
           },
         }
       );
-      process.stdout.write(chalk.green(`${distFileBasename} uploaded\n`));
+      process.stdout.write(chalk.green(`${targetBinaryName} uploaded\n`));
     })
   );
 })();
