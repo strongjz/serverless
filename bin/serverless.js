@@ -5,7 +5,7 @@
 if (
   process.argv[2] === 'binary-postinstall' &&
   process.argv.length === 3 &&
-  require('../lib/utils/isExecutable')
+  require('../lib/utils/isStandaloneExecutable')
 ) {
   require('../scripts/postinstall');
   return;

@@ -2,7 +2,7 @@
 
 const boxen = require('boxen');
 const chalk = require('chalk');
-const isPathDependent = require('../lib/utils/isExecutable') && process.platform !== 'win32';
+const isPathDependent = require('../lib/utils/isStandaloneExecutable') && process.platform !== 'win32';
 
 const truthyStr = val => val && !['0', 'false', 'f', 'n', 'no'].includes(val.toLowerCase());
 const { CI, ADBLOCK, SILENT } = process.env;
