@@ -53,8 +53,6 @@ tracking-config.json
 
 # Misc
 jest
-dist
-*.nix
 
 # VIM
 *.swp
