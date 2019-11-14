@@ -46,6 +46,7 @@ script:
 
 # Ensure to fail build if deploy fails, Travis doesn't ensure that: https://github.com/travis-ci/travis-ci/issues/921
 before_deploy:
+  - set -e
   # Prepare binaries
   - npm run pkg
   # Remove eventual old npm logs
